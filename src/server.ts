@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/test', (request, response) => {
+app.post('/foyers', (request, response) => {
     return response.json ({ message: 'Hello Word' });
 });
 
