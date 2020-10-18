@@ -2,6 +2,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import foyersView from '../views/foyers_view';
+import * as Yup from 'yup';
 
 import Foyer from '../models/Foyer';
 
@@ -49,8 +50,8 @@ export default {
         const images = requestImages.map(image => {
             return { path: image.filename }
         });
-    
-        const foyer = foyersRepository.create({
+
+        const data = {
             name,
             latitude,
             longitude, 
@@ -59,8 +60,29 @@ export default {
             opening_hours,
             open_on_weekends,
             images
-        });
-    
+				};
+				
+				const foyer = foyersRepository.create(data);
+
+        const schema = Yup.object().shape({
+            name: Yup.string().required('Le nom est obligatoire'),
+            latitude: Yup.number().required(),
+            longitude: Yup.number().required(),
+            about: Yup.string().required().max(300),
+            instructions: Yup.string().required(),
+            opening_hours: Yup.string().required(),
+            open_on_weekends: Yup.boolean().required(),
+            images: 
+                Yup.array(Yup.object().shape({
+                    path: Yup.string().required(),
+                })
+            )
+				});
+				
+				await schema.validate(data, {
+					abortEarly: false,
+				});
+
         await foyersRepository.save(foyer);
     
         return response.status(201).json (foyer); 
