@@ -5,6 +5,16 @@ import Foyer from '../models/Foyer';
 
 
 export default {
+
+    async index(request: Request, response: Response) {
+        const foyersRepository = getRepository(Foyer);
+
+        const foyers = await foyersRepository.find();
+
+        return response.json(foyers);
+    },
+
+
     async create(request: Request, response: Response) {
         const {
             name,
