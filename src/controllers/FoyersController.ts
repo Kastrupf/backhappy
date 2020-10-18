@@ -58,13 +58,11 @@ export default {
             about,
             instructions,
             opening_hours,
-            open_on_weekends,
+            open_on_weekends : open_on_weekends === 'true',
             images
-				};
+			};
 				
-				const foyer = foyersRepository.create(data);
-
-        const schema = Yup.object().shape({
+	    const schema = Yup.object().shape({
             name: Yup.string().required('Le nom est obligatoire'),
             latitude: Yup.number().required(),
             longitude: Yup.number().required(),
@@ -77,15 +75,16 @@ export default {
                     path: Yup.string().required(),
                 })
             )
-				});
-				
-				await schema.validate(data, {
-					abortEarly: false,
-				});
+        });
+             		
+		await schema.validate(data, {
+			abortEarly: false,
+		});
 
+        const foyer = foyersRepository.create(data)
+        
         await foyersRepository.save(foyer);
     
-        return response.status(201).json (foyer); 
-     
+        return response.status(201).json(foyer); 
     }
-}
+};
