@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
+import Image from './Image';
 
 @Entity('foyers')
 export default class Foyer {
@@ -27,4 +27,10 @@ export default class Foyer {
 
     @Column()
     open_on_weekends: boolean;
+
+    @OneToMany(() => Image, image => image.foyer, {
+			cascade: ['insert', 'update']
+    })
+    @JoinColumn({ name: 'foyer_id' })
+    images: Image[];
 }

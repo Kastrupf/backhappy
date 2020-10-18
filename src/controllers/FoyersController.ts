@@ -25,6 +25,8 @@ export default {
     },
 
     async create(request: Request, response: Response) {
+        // console.log(request.files);
+        
         const {
             name,
             latitude,
@@ -36,6 +38,11 @@ export default {
         } = request.body;
     
         const foyersRepository = getRepository(Foyer);
+
+        const requestImages = request.files as Express.Multer.File[];
+        const images = requestImages.map(image => {
+            return { path: image.filename }
+        });
     
         const foyer = foyersRepository.create({
             name,
@@ -45,6 +52,7 @@ export default {
             instructions,
             opening_hours,
             open_on_weekends,
+            images
         });
     
         await foyersRepository.save(foyer);
