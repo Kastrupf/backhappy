@@ -1,6 +1,8 @@
 
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
+import foyersView from '../views/foyers_view';
+
 import Foyer from '../models/Foyer';
 
 
@@ -9,9 +11,11 @@ export default {
     async index(request: Request, response: Response) {
         const foyersRepository = getRepository(Foyer);
 
-        const foyers = await foyersRepository.find();
+        const foyers = await foyersRepository.find({
+            relations: ['images']
+        });
 
-        return response.json(foyers);
+        return response.json(foyersView.renderMany(foyers));
     },
 
     async show(request: Request, response: Response) {
@@ -19,9 +23,11 @@ export default {
 
         const foyersRepository = getRepository(Foyer);
 
-        const foyer = await foyersRepository.findOneOrFail(id);
+        const foyer = await foyersRepository.findOneOrFail(id, {
+            relations: ['images'] 
+        });
 
-        return response.json(foyer);
+        return response.json(foyersView.render(foyer));
     },
 
     async create(request: Request, response: Response) {
