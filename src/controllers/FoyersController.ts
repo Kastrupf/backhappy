@@ -14,6 +14,15 @@ export default {
         return response.json(foyers);
     },
 
+    async show(request: Request, response: Response) {
+        const { id } = request.params;
+
+        const foyersRepository = getRepository(Foyer);
+
+        const foyer = await foyersRepository.findOneOrFail(id);
+
+        return response.json(foyer);
+    },
 
     async create(request: Request, response: Response) {
         const {
