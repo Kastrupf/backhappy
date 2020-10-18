@@ -20,7 +20,7 @@ export default class Foyer {
     about: string;
 
     @Column()
-    instruction: string;
+    instructions: string;
 
     @Column()
     opening_hours: string;
