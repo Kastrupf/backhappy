@@ -1,5 +1,5 @@
 import Foyer from "../models/Foyer";
-
+import imagesView from "./images_view";
 
 
 export default {
@@ -12,7 +12,8 @@ export default {
     	about: foyer.about,
     	instructions: foyer.instructions,
     	opening_hours: foyer.opening_hours,
-    	open_on_weekends: foyer.open_on_weekends,
+			open_on_weekends: foyer.open_on_weekends,
+			images: imagesView.renderMany(foyer.images)
   	};
 	},
 
