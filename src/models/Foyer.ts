@@ -29,7 +29,7 @@ export default class Foyer {
     open_on_weekends: boolean;
 
     @OneToMany(() => Image, image => image.foyer, {
-			cascade: ['insert', 'update']
+		cascade: ['insert', 'update']
     })
     @JoinColumn({ name: 'foyer_id' })
     images: Image[];
